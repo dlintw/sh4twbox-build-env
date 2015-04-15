@@ -28,7 +28,8 @@ RUN rpm -ivh --force-debian /tmp/deps.rpm
 
 # 2015/04/16 workaround for 'install all-sh4-glibc' script
 RUN curl -o /tmp/ks.rpm $DL/updates/RPMS/host/stlinux24-host-kernel-source-sh4-2.6.32.61_stm24_0215-215.noarch.rpm
-RUN rpm -Uvh /tmp/ks.rpm
+RUN curl -o /tmp/fs.rpm $DL/STLinux/host/stlinux24-host-filesystem-1.0-7.noarch.rpm
+RUN rpm -Uvh /tmp/fs.rpm && rpm -Uvh /tmp/ks.rpm
 
 RUN curl -o /tmp/install $DL/install && bash -x /tmp/install -u all-sh4-glibc
 
