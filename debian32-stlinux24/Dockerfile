@@ -35,6 +35,7 @@ RUN rpm -Uvh /tmp/fs.rpm && rpm -Uvh /tmp/ks.rpm && rpm -Uvh /tmp/lkh.rpm
 
 RUN curl -o /tmp/install $DL/install && bash -x /tmp/install -u all-sh4-glibc
 
+# $DL/updates/RPMS/sh4_uclibc/stlinux24-sh4_uclibc-linux-kernel-headers-2.6.32.46-48.noarch.rpm
 RUN curl -o /tmp/ulkh.rpm $DL/STLinux/sh4_uclibc/stlinux24-sh4_uclibc-linux-kernel-headers-2.6.32.10_stm24_0201-42.noarch.rpm
 RUN rpm -Uvh /tmp/ulkh.rpm
 
