@@ -42,6 +42,6 @@ RUN bash -x /tmp/install -u all-sh4-uclibc
 RUN /opt/STM/STLinux-2.4/host/bin/stmyum update -y
 
 # cache file puts in /opt/STM/STLinux-2.4/host/var/cache/yum/STLinux_Distribution/packages/
-RUN /opt/STM/STLinux-2.4/host/bin/stmyum clearn dbcache packages
+RUN /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages
 RUN apt-get clean
 RUN rm -R /tmp/*
