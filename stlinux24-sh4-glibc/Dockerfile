@@ -36,13 +36,7 @@ RUN curl -o /tmp/lkh.rpm $DL/updates/RPMS/sh4/stlinux24-sh4-linux-kernel-headers
 RUN rpm -Uvh /tmp/fs.rpm && rpm -Uvh /tmp/ks.rpm && rpm -Uvh /tmp/lkh.rpm
 
 RUN curl -o /tmp/install $DL/install && bash -x /tmp/install -u all-sh4-glibc
-RUN /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages
 
-# $DL/updates/RPMS/sh4_uclibc/stlinux24-sh4_uclibc-linux-kernel-headers-2.6.32.46-48.noarch.rpm
-RUN curl -o /tmp/ulkh.rpm $DL/STLinux/sh4_uclibc/stlinux24-sh4_uclibc-linux-kernel-headers-2.6.32.10_stm24_0201-42.noarch.rpm
-RUN rpm -Uvh /tmp/ulkh.rpm
-
-RUN bash -x /tmp/install -u all-sh4-uclibc
 RUN /opt/STM/STLinux-2.4/host/bin/stmyum update -y
 
 # cache file puts in /opt/STM/STLinux-2.4/host/var/cache/yum/STLinux_Distribution/packages/
