@@ -3,10 +3,10 @@ FROM 32bit/debian:jessie
 # use GMT+8 as localtime
 RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
-# install basic rpm required packages
-RUN apt-get update -y
-RUN apt-get upgrade -y
-RUN apt-get install -y \
+# install basic rpm required packages and clean cache
+RUN apt-get update -y \
+  && apt-get upgrade -y \
+  && apt-get install -y \
 	curl \
 	debfoster \
 	deborphan \
@@ -14,9 +14,8 @@ RUN apt-get install -y \
 	python-sqlitecachec \
 	python-urlgrabber \
 	rpm \
-	tmux
-
-RUN apt-get clean
+	tmux \
+  && apt-get clean
 
 # use bash instead of sh
 RUN ln -sf bash /bin/sh
@@ -35,10 +34,11 @@ RUN curl -o /tmp/fs.rpm $DL/STLinux/host/stlinux24-host-filesystem-1.0-7.noarch.
 RUN curl -o /tmp/lkh.rpm $DL/updates/RPMS/sh4/stlinux24-sh4-linux-kernel-headers-2.6.32.46-48.noarch.rpm
 RUN rpm -Uvh /tmp/fs.rpm && rpm -Uvh /tmp/ks.rpm && rpm -Uvh /tmp/lkh.rpm
 
-RUN curl -o /tmp/install $DL/install && bash -x /tmp/install -u all-sh4-glibc
-
-RUN /opt/STM/STLinux-2.4/host/bin/stmyum update -y
-
+# install & clean cache
 # cache file puts in /opt/STM/STLinux-2.4/host/var/cache/yum/STLinux_Distribution/packages/
-RUN /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages
+RUN curl -o /tmp/install $DL/install \
+  && bash -x /tmp/install -u all-sh4-glibc \
+  && /opt/STM/STLinux-2.4/host/bin/stmyum update -y \
+  && /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages
+
 RUN rm -R /tmp/*

@@ -4,9 +4,9 @@ FROM 32bit/debian:jessie
 RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
 # install basic rpm required packages
-RUN apt-get update -y
-RUN apt-get upgrade -y
-RUN apt-get install -y \
+RUN apt-get update -y \
+  && apt-get upgrade -y \
+  && apt-get install -y \
 	curl \
 	debfoster \
 	deborphan \
@@ -14,9 +14,8 @@ RUN apt-get install -y \
 	python-sqlitecachec \
 	python-urlgrabber \
 	rpm \
-	tmux
-
-RUN apt-get clean
+	tmux \
+  && apt-get clean
 # use bash instead of sh
 RUN ln -sf bash /bin/sh
 
@@ -27,7 +26,6 @@ RUN curl -o /tmp/deps.rpm $DL/misc/$(curl $DL/misc/ \
   | awk -F'<' '{print $1}') 
 RUN rpm -ivh --force-debian /tmp/deps.rpm
 
-
 # 2015/04/16 workaround for 'install all-sh4-glibc' script
 RUN curl -o /tmp/ks.rpm $DL/updates/RPMS/host/stlinux24-host-kernel-source-sh4-2.6.32.61_stm24_0215-215.noarch.rpm
 RUN curl -o /tmp/fs.rpm $DL/STLinux/host/stlinux24-host-filesystem-1.0-7.noarch.rpm
@@ -36,9 +34,11 @@ RUN curl -o /tmp/fs.rpm $DL/STLinux/host/stlinux24-host-filesystem-1.0-7.noarch.
 RUN curl -o /tmp/ulkh.rpm $DL/STLinux/sh4_uclibc/stlinux24-sh4_uclibc-linux-kernel-headers-2.6.32.10_stm24_0201-42.noarch.rpm
 RUN rpm -Uvh /tmp/fs.rpm && rpm -Uvh /tmp/ks.rpm && rpm -Uvh /tmp/ulkh.rpm
 
-RUN bash -x /tmp/install -u all-sh4-uclibc
-RUN /opt/STM/STLinux-2.4/host/bin/stmyum update -y
-
+# install and clean cache
 # cache file puts in /opt/STM/STLinux-2.4/host/var/cache/yum/STLinux_Distribution/packages/
-RUN /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages
+RUN curl -o /tmp/install $DL/install \
+  && bash -x /tmp/install -u all-sh4-uclibc \
+  && /opt/STM/STLinux-2.4/host/bin/stmyum update -y \
+  && /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages
+
 RUN rm -R /tmp/*
