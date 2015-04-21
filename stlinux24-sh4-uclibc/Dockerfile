@@ -1,6 +1,6 @@
 # Dockerfile put in https://github.com/dlintw/sh4twbox-build-env
-MAINTAINER Daniel YC Lin <dlin.tw at gmail>
 FROM 32bit/debian:jessie
+MAINTAINER Daniel YC Lin <dlin.tw at gmail>
 # use GMT+8 as localtime
 RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
