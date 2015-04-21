@@ -43,7 +43,6 @@ RUN curl -o /tmp/install $DL/install \
   && /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages
 
 RUN rm -R /tmp/*
-RUN apt-get install -y vim git make \
-  && apt-get clean
-RUN apt-get install -y gcc \
+RUN apt-get update -y \
+  && apt-get install -y vim git make gcc \
   && apt-get clean
