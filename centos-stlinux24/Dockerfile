@@ -1,3 +1,4 @@
+# Sorry, this is out of date and can not build successful anymore.
 # Usage
 # =====
 # # assume /tmp/root is your shared directory with this docker

@@ -4,7 +4,7 @@ This image contains:
 
 * all-sh4-uclibc
 
-The total image size is about 6.8G.
+The total image size is about 3.69GB.
 It's Dockerfile(how this image is build) is put in
 https://github.com/dlintw/sh4twbox-build-env
 
