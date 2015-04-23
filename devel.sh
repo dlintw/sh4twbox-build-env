@@ -1,5 +1,6 @@
 #!/bin/bash
 readonly IMAGE=${IMAGE:-dlin/stlinux24-sh4-glibc}
+set -x ; export PS5='+\t $BASH_SOURCE:$LINENO: ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 set -eufo pipefail
 createimage() {
   local uid=$(id|awk -F'(' '{print $1}'|awk -F= '{print $2}')
@@ -14,28 +15,48 @@ EOT
 usage(){
   cat <<EOT
 Usage: $(basename $0) [init/sh/root]
-  init - create personal docker image
-  sh   - enter build environment as root
+  init - create personal docker image 'build'
+  start - start 'build' container
+  rm   - force remove 'build' container
+  root  - enter root
+  sh  - enter normal user
 EOT
   exit 1
 }
 
-run(){
-  docker rm -f build || true
-  docker run --rm -i -t --name build \
-    -w $PWD \
+chk_docker_ps() {
+  local cname=$1
+  local running=$(docker inspect -f '{{ .State.Running }}' $1)
+  case "$running" in
+    true)
+      local paused=$(docker inspect -f '{{ .State.Paused }}' $1)
+      [[ "$paused" = true ]] && docker unpause $1
+      return 0;;
+    *) echo "Warn: $1 container not running, restart it"
+      return 1;;
+  esac
+}
+vm_run() {
+  docker rm -f build 2>/dev/null || true
+  docker run -d -u root --name build \
     -v $HOME:$HOME \
     --env EDITOR=${EDITOR:-vim} \
-    --env USER=$USER \
-    build \
-    /bin/bash
+    build /usr/sbin/rsyslogd -n
 }
-
+vm_start() {
+  if ! chk_docker_ps build ; then
+    vm_run
+  fi
+  docker ps | grep build
+}
 main(){
   [[ $# -ne 1 ]] && usage
   case "$1" in
     init) createimage;;
-    sh) run;;
+    start) vm_start;;
+    rm) docker rm -f build;;
+    root) docker exec -i -t build /bin/bash;;
+    sh) docker exec -i -t build /bin/su - $USER;;
     *) usage;;
   esac
 }
