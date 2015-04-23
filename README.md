@@ -56,3 +56,11 @@ If you want to install other package, use root
 
 	source env24.sh
 	./make.sh all
+
+## 4. build 3.4 kernel (pdk7105-3.4 working in progressing)
+
+### 4.1 check out source
+
+	git clone https://github.com/dlintw/pdk7105-3.4
+	cd pdk7105-3.4
+
