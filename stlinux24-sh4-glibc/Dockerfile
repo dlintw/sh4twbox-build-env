@@ -8,14 +8,19 @@ RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 RUN apt-get update -y \
   && apt-get upgrade -y \
   && apt-get install -y \
+	cscope \
 	curl \
 	debfoster \
 	deborphan \
+	gcc \
+	git \
+	make \
 	python-rpm \
 	python-sqlitecachec \
 	python-urlgrabber \
 	rpm \
 	tmux \
+	vim \
   && apt-get clean
 
 # use bash instead of sh
@@ -29,20 +34,17 @@ RUN curl -o /tmp/deps.rpm $DL/misc/$(curl $DL/misc/ \
 RUN rpm -ivh --force-debian /tmp/deps.rpm
 
 
-# 2015/04/16 workaround for 'install all-sh4-glibc' script
-RUN curl -o /tmp/ks.rpm $DL/updates/RPMS/host/stlinux24-host-kernel-source-sh4-2.6.32.61_stm24_0215-215.noarch.rpm
-RUN curl -o /tmp/fs.rpm $DL/STLinux/host/stlinux24-host-filesystem-1.0-7.noarch.rpm
-RUN curl -o /tmp/lkh.rpm $DL/updates/RPMS/sh4/stlinux24-sh4-linux-kernel-headers-2.6.32.46-48.noarch.rpm
-RUN rpm -Uvh /tmp/fs.rpm && rpm -Uvh /tmp/ks.rpm && rpm -Uvh /tmp/lkh.rpm
+# 2015/04/23 try to get 3.4 headers directly
+## 2015/04/16 workaround for 'install all-sh4-glibc' script
+#RUN curl -o /tmp/ks.rpm $DL/updates/RPMS/host/stlinux24-host-kernel-source-sh4-2.6.32.61_stm24_0215-215.noarch.rpm
+#RUN curl -o /tmp/fs.rpm $DL/STLinux/host/stlinux24-host-filesystem-1.0-7.noarch.rpm
+#RUN curl -o /tmp/lkh.rpm $DL/updates/RPMS/sh4/stlinux24-sh4-linux-kernel-headers-2.6.32.46-48.noarch.rpm
+#RUN rpm -Uvh /tmp/fs.rpm && rpm -Uvh /tmp/ks.rpm && rpm -Uvh /tmp/lkh.rpm
 
 # install & clean cache
 # cache file puts in /opt/STM/STLinux-2.4/host/var/cache/yum/STLinux_Distribution/packages/
 RUN curl -o /tmp/install $DL/install \
   && bash -x /tmp/install -u all-sh4-glibc \
   && /opt/STM/STLinux-2.4/host/bin/stmyum update -y \
-  && /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages
-
-RUN rm -R /tmp/*
-RUN apt-get update -y \
-  && apt-get install -y vim git make gcc \
-  && apt-get clean
+  && /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages \
+  && rm -f /tmp/*rpm
