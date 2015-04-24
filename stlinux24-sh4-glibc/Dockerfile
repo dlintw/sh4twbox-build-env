@@ -49,4 +49,4 @@ RUN curl -o /tmp/install $DL/install \
   && /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages \
   && rm -f /tmp/*rpm
 
-ENV /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/STM/STLinux-2.4/host/bin:/opt/STM/STLinux-2.4/devkit/sh4/bin
+ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/STM/STLinux-2.4/host/bin:/opt/STM/STLinux-2.4/devkit/sh4/bin
