@@ -12,4 +12,4 @@ https://github.com/dlintw/sh4twbox-build-env
 
 docker run --rm -it dlin/stlinux24-sh4-uclibc /bin/bash
 
-All installed stlinux 2.4 files is put on /opt/STM.
+All installed stlinux 2.4 files are put on /opt/STM.

@@ -13,7 +13,7 @@ stlinux24-sh4-glibc/Dockerfile to install build environemnt inside your
 debian/ubuntu Linux OS.
 
 
-### 1.2 Enter docker debian 32 build environment
+### 1.2 Enter docker debian 32-bit build environment
 
 If you are familiar with docker,
 
@@ -31,6 +31,11 @@ Or, just install 'docker' package and run:
 If you want to install other package, use root
 
 	./devel.sh root   
+
+If you want to pull fresh image,
+
+	./devel.sh rm    # force remove exist container
+	./devel.sh init  # rebuild image
 
 ## 2. Build uboot (twpda-uboot)
 
