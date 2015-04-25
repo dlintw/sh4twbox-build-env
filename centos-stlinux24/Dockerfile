@@ -5,6 +5,8 @@ MAINTAINER Daniel YC Lin <dlin.tw at gmail>
 RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
 # install basic rpm required packages and clean cache
+# Note: search 'available' and 'already' in the install log manually.
+#	perl-Digest-Perl-MD5 \
 RUN yum update -y && yum install -y epel-release && yum install -y \
 	bzip2-libs.i686 \
 	compat-glibc.x86_64 \
@@ -15,8 +17,8 @@ RUN yum update -y && yum install -y epel-release && yum install -y \
 	git \
 	glibc.i686 \
 	make \
-	perl-Digest-Perl-MD5 \
-	tmul \
+	perl-Digest-MD5 \
+	tmux \
 	vim \
 	wget \
   && yum clean all
