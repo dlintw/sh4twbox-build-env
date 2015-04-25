@@ -15,7 +15,7 @@ RUN yum update -y && yum install -y \
 	vim \
 	wget \
 	which \
-  && apt-get clean
+  && yum clean all
 
 ENV DL http://download.stlinux.com/pub/stlinux/2.4
 # get newest depdency rpms
