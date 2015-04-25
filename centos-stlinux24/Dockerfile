@@ -6,12 +6,18 @@ RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
 # install basic rpm required packages and clean cache
 RUN yum update -y && yum install -y \
+	bzip2-libs.i686 \
+	compat-glibc.x86_64 \
+	compat-libstdc++-33.i686 \
+	compat-libstdc++-33.x86_64 \
 	cscope \
-	curl \
+	epel-release \
 	gcc-c++ \
 	git \
+	glibc.i686 \
 	make \
-	tmux \
+	perl-Digest-Perl-MD5 \
+	tmul \
 	vim \
 	wget \
 	which \
