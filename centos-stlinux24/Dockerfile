@@ -4,8 +4,8 @@ MAINTAINER Daniel YC Lin <dlin.tw at gmail>
 # use GMT+8 as localtime
 RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
+# Note: search 'available,already,Fail' in the install log manually.
 # install basic rpm required packages and clean cache
-# Note: search 'available' and 'already' in the install log manually.
 #	perl-Digest-Perl-MD5 \
 RUN yum update -y && yum install -y epel-release && yum install -y \
 	bzip2-libs.i686 \
@@ -16,6 +16,7 @@ RUN yum update -y && yum install -y epel-release && yum install -y \
 	gcc-c++ \
 	git \
 	glibc.i686 \
+	libxml2-python \
 	make \
 	perl-Digest-MD5 \
 	tmux \
