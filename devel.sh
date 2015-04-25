@@ -1,23 +1,25 @@
 #!/bin/bash
 readonly IMAGE=${IMAGE:-dlin/stlinux24-sh4-glibc}
+readonly NAME=${IMAGE##*/}
 #set -x ; export PS5='+\t $BASH_SOURCE:$LINENO: ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 set -eufo pipefail
+
 createimage() {
   local uid=$(id|awk -F'(' '{print $1}'|awk -F= '{print $2}')
-  cat - <<EOT > Dockerfile.build
+  cat - <<EOT > Dockerfile.$NAME
 FROM $IMAGE
 RUN useradd -m -u $uid $USER
 EOT
   docker pull $IMAGE
-  cat Dockerfile.build | docker build -t build -
+  cat Dockerfile.$NAME | docker build -t $NAME -
 }
 
 usage(){
   cat <<EOT
 Usage: $(basename $0) [init/sh/root]
-  init - create personal docker image 'build'
-  start - start 'build' container
-  rm   - force remove 'build' container
+  init - create personal docker image '$NAME'
+  start - start '$NAME' container
+  rm   - force remove '$NAME' container
   root  - enter root
   sh  - enter normal user
 EOT
@@ -39,14 +41,14 @@ chk_docker_ps() {
 }
 
 vm_start() {
-  if ! chk_docker_ps build ; then
-    docker rm -f build 2>/dev/null || true
-    docker run -d -u root --name build \
+  if ! chk_docker_ps $NAME ; then
+    docker rm -f $NAME 2>/dev/null || true
+    docker run -d -u root --name $NAME \
       -v $HOME:$HOME \
       --env EDITOR=${EDITOR:-vim} \
-      build /usr/sbin/rsyslogd -n
+      $NAME /usr/sbin/rsyslogd -n
   fi
-  docker ps | grep build
+  docker ps | grep $NAME
 }
 
 main(){
@@ -55,9 +57,9 @@ main(){
   case "$1" in
     init) createimage;;
     start) vm_start;;
-    rm) docker rm -f build;;
-    root) docker exec -i -t build /bin/bash;;
-    sh) docker exec -i -t build /bin/su - $USER;;
+    rm) docker rm -f $NAME;;
+    root) docker exec -i -t $NAME /bin/bash;;
+    sh) docker exec -i -t $NAME /bin/su - $USER;;
     *) usage;;
   esac
 }

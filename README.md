@@ -37,6 +37,12 @@ If you want to pull fresh image,
 	./devel.sh rm    # force remove exist container
 	./devel.sh init  # rebuild image
 
+The default image is base on debian 32(dlin/stlinux-sh4-glibc). To assign
+other other image, we could use the IMAGE environment variable::
+
+	export IMAGE=dlin/centos-stlinux24
+        devel.sh <options>
+
 ## 2. Build uboot (twpda-uboot)
 
 ### 2.1 check out source
