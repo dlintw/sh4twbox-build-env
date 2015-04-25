@@ -5,13 +5,12 @@ MAINTAINER Daniel YC Lin <dlin.tw at gmail>
 RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
 # install basic rpm required packages and clean cache
-RUN yum update -y && yum install -y \
+RUN yum update -y && yum install -y epel-release && yum install -y \
 	bzip2-libs.i686 \
 	compat-glibc.x86_64 \
 	compat-libstdc++-33.i686 \
 	compat-libstdc++-33.x86_64 \
 	cscope \
-	epel-release \
 	gcc-c++ \
 	git \
 	glibc.i686 \
@@ -20,7 +19,6 @@ RUN yum update -y && yum install -y \
 	tmul \
 	vim \
 	wget \
-	which \
   && yum clean all
 
 ENV DL http://download.stlinux.com/pub/stlinux/2.4
