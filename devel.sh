@@ -1,5 +1,9 @@
 #!/bin/bash
-readonly IMAGE=${IMAGE:-dlin/stlinux24-sh4-glibc}
+if [[ $(uname -m) = x86_64 ]] ; then
+  readonly IMAGE=${IMAGE:-dlin/centos-stlinux24}
+else
+  readonly IMAGE=${IMAGE:-dlin/stlinux24-sh4-glibc}
+fi
 readonly NAME=${IMAGE##*/}
 #set -x ; export PS5='+\t $BASH_SOURCE:$LINENO: ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 set -eufo pipefail
