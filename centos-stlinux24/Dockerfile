@@ -6,7 +6,7 @@ RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
 # Note: search 'available,already,Fail' in the install log manually.
 # install basic rpm required packages and clean cache
-#	perl-Digest-Perl-MD5 \
+#	TODO: file tar zsh bzip2
 RUN yum update -y && yum install -y epel-release && yum install -y \
 	bzip2-libs.i686 \
 	compat-glibc.x86_64 \

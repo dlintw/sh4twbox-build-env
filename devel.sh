@@ -45,12 +45,15 @@ chk_docker_ps() {
 }
 
 vm_start() {
+  # --env PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/STM/STLinux-2.4/host/bin:/opt/STM/STLinux-2.4/devkit/sh4/bin \
   if ! chk_docker_ps $NAME ; then
     docker rm -f $NAME 2>/dev/null || true
     docker run -d -u root --name $NAME \
       -v $HOME:$HOME \
       --env EDITOR=${EDITOR:-vim} \
-      $NAME /usr/sbin/rsyslogd -n
+      --env TERM=${TERM:-xterm} \
+      $NAME tail -f /dev/null
+      #$NAME /usr/sbin/rsyslogd -n
   fi
   docker ps | grep $NAME
 }
