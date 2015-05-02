@@ -25,9 +25,6 @@ Or, just install 'docker' package and run:
 	./devel.sh start  # only run after boot your system
 	./devel.sh sh
 
-	# after enter the bash shell, assign terminal environment
-        $ export TERM=xterm
-
 If you want to install other package, use root
 
 	./devel.sh root   
@@ -37,41 +34,15 @@ If you want to pull fresh image,
 	./devel.sh rm    # force remove exist container
 	./devel.sh init  # rebuild image
 
-The default image is base on debian 32(dlin/stlinux-sh4-glibc). To assign
-other other image, we could use the IMAGE environment variable::
+The default image for 64-bit environment is base on centos.
+And we use debian to build 32-bit environment.
+To assign other other image, we could use the IMAGE environment variable::
 
 	export IMAGE=dlin/centos-stlinux24
         devel.sh <options>
 
-## 2. Build uboot (twpda-uboot)
+## 2. Build sh4twbox
 
-### 2.1 check out source
+Just one command::
 
-	git clone https://github.com/dlintw/twpda-uboot
-	cd  twpda-uboot
-
-### 2.2 build uboot image for NextVOD
-
-	source st24.sh
-	./make.sh
-
-## 3. build kernel (kernel-pdk7105 twpda branch)
-
-### 3.1 check out source
-
-	git clone https://github.com/dlintw/kernel-pdk7105
-	cd  kernel-pdk7105
-	git checkout twpda
-
-### 3.2 build kernel
-
-	source env24.sh
-	./make.sh all
-
-## 4. build 3.4 kernel (pdk7105-3.4 working in progressing)
-
-### 4.1 check out source
-
-	git clone https://github.com/dlintw/pdk7105-3.4
-	cd pdk7105-3.4
-
+  make 
