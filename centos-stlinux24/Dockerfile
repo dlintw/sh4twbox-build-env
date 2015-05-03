@@ -6,7 +6,6 @@ RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
 # Note: search 'available,already,Fail' in the install log manually.
 # install basic rpm required packages and clean cache
-#	TODO: file tar zsh bzip2
 RUN yum update -y && yum install -y epel-release && yum install -y \
 	bzip2-libs.i686 \
 	compat-glibc.x86_64 \
@@ -45,5 +44,12 @@ RUN curl -o /tmp/install $DL/install \
   && /opt/STM/STLinux-2.4/host/bin/stmyum update -y \
   && /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages \
   && rm -f /tmp/*rpm
+
+RUN yum update -y && yum install -y \
+  @Development\ Tools \
+  rpm-build \
+  file \
+  zsh \
+  && yum clean all
 
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/STM/STLinux-2.4/host/bin:/opt/STM/STLinux-2.4/devkit/sh4/bin
