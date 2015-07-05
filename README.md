@@ -3,21 +3,20 @@ Build Environment for sh4twbox (NextVod TV setupbox)
 
 ## 1. Enter build environment
 
-You can choose one of 1.1 and 1.2.
+You can choose one of 1.1 or 1.2.
 
-### 1.1 Instal STLinux 2.4 in debian/ubuntu
+### 1.1 Instal STLinux 2.4 in debian/ubuntu/centos
 
-If you don't want pre-built environment, you can follow the instructions in
+If you don't want the pre-built docker environment, you can follow the 
+instructions in stlinux24-sh4-glibc/Dockerfile(debian/ubuntu) or
+centos-stlinux24/Dockerfile to install build environemnt inside your
+ Linux OS.
 
-stlinux24-sh4-glibc/Dockerfile to install build environemnt inside your
-debian/ubuntu Linux OS.
-
-
-### 1.2 Enter docker debian 32-bit build environment
+### 1.2 Use pre-built docker environment
 
 If you are familiar with docker,
 
-	docker run -it stlinux24-sh4-glibc /bin/bash
+	docker run -it <docker-image> /bin/bash
 
 Or, just install 'docker' package and run:
 

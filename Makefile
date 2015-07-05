@@ -26,11 +26,20 @@ kernel.make: kernel.dir
 	cd kernel ; ./make.sh all
 	touch kernel.make
 busybox.dir:
-	[[ ! -d busybox ]] && curl -o busybox.tar.bz2 ${BUSYBOX_SRC} \
-		&& tar xf busybox.tar.bz2 git \
-		&& mv busybox-$(BUSYBOX_VER) busybox \
-		&& cp patches/busybox.config busybox/.config || true
+	if [[ ! -d busybox ]] ; then \
+       	  curl -o busybox.tar.bz2 ${BUSYBOX_SRC} \
+	  && tar xf busybox.tar.bz2 \
+	  && mv busybox-$(BUSYBOX_VER) busybox \
+	  && cp patches/busybox.config busybox/.config ; \
+	fi
 	touch busybox.dir
 busybox.make: busybox.dir
 	cd busybox && make oldconfig && make
 	touch busybox.make
+clean:
+	cd uboot ; ./clean.sh || true
+	rm -f uboot.make
+	cd kernel ; ./clean.sh || true
+	rm -f kernel.make
+	cd busybox ; make clean || true
+	rm -f busybox.make

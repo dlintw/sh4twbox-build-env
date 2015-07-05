@@ -5,6 +5,7 @@ MAINTAINER Daniel YC Lin <dlin.tw at gmail>
 RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
 # install basic rpm required packages, and clean cache
+# TODO: build-essential
 RUN apt-get update -y \
   && apt-get upgrade -y \
   && apt-get install -y \
