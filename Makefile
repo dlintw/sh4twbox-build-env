@@ -4,6 +4,8 @@ UBOOT_BIN=uboot/uboot_update_tool/iptvubootupdate.bin
 KERNEL_BIN=kernel/arch/sh/boot/uImage.gz
 BUSYBOX_VER=1.23.2
 BUSYBOX_SRC=http://www.busybox.net/downloads/busybox-$(BUSYBOX_VER).tar.bz2
+JOBS=$(($(cat /proc/cpuinfo|grep '^processor'|wc -l)+1))
+
 # kernel/lib/modules
 
 # setup environment for STLinux 2.4 cross compiler
@@ -35,8 +37,14 @@ busybox.dir:
 	fi
 	touch busybox.dir
 busybox.make: busybox.dir
-	cd busybox && make oldconfig && make
+	cd busybox && make oldconfig && LD_LIBRARY_PATH= make -j $(JOBS) \
 	touch busybox.make
+	fakeroot <<EOT
+	make install
+	chmod u+s _install/bin/busybox
+	tar -C _install -cJf busybox.txz .
+	EOT
+
 clean:
 	cd uboot ; ./clean.sh || true
 	rm -f uboot.make
