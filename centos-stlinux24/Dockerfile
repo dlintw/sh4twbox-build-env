@@ -55,4 +55,8 @@ RUN curl -o /tmp/install $DL/install \
 RUN wget -O /usr/bin/pacapt https://github.com/icy/pacapt/raw/ng/pacapt \
   && chmod +x /usr/bin/pacapt
 
+# for su - user, setup correct environment
+RUN echo 'PATH=$PATH:/opt/STM/STLinux-2.4/host/bin:/opt/STM/STLinux-2.4/devkit/sh4/bin' \
+  > etc/profile.d/stlinux24.sh
+
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/STM/STLinux-2.4/host/bin:/opt/STM/STLinux-2.4/devkit/sh4/bin
