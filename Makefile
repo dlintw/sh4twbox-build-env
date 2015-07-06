@@ -29,7 +29,8 @@ busybox.dir:
 	if [[ ! -d busybox ]] ; then \
        	  curl -o busybox.tar.bz2 ${BUSYBOX_SRC} \
 	  && tar xf busybox.tar.bz2 \
-	  && mv busybox-$(BUSYBOX_VER) busybox \
+	  && rm -f busybox \
+	  && ln -s busybox-$(BUSYBOX_VER) busybox \
 	  && cp patches/busybox.config busybox/.config ; \
 	fi
 	touch busybox.dir

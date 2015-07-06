@@ -7,21 +7,27 @@ RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 # Note: search 'available,already,Fail' in the install log manually.
 # install basic rpm required packages and clean cache
 RUN yum update -y && yum install -y epel-release && yum install -y \
+	@Development\ Tools \
 	bzip2-libs.i686 \
 	compat-glibc.x86_64 \
 	compat-libstdc++-33.i686 \
 	compat-libstdc++-33.x86_64 \
 	cscope \
+	fakeroot \
+	file \
 	gcc-c++ \
 	git \
 	glibc.i686 \
 	libxml2-python \
 	make \
 	perl-Digest-MD5 \
+	rpm-build \
 	tmux \
 	vim \
 	wget \
-  && yum clean all
+	zsh
+
+#  && yum clean all
 
 ENV DL http://download.stlinux.com/pub/stlinux/2.4
 # get newest depdency rpms
@@ -41,15 +47,9 @@ ENV DL http://download.stlinux.com/pub/stlinux/2.4
 # cache file puts in /opt/STM/STLinux-2.4/host/var/cache/yum/STLinux_Distribution/packages/
 RUN curl -o /tmp/install $DL/install \
   && bash -x /tmp/install -u all-sh4-glibc \
-  && /opt/STM/STLinux-2.4/host/bin/stmyum update -y \
-  && /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages \
-  && rm -f /tmp/*rpm
+  && /opt/STM/STLinux-2.4/host/bin/stmyum update -y
 
-RUN yum update -y && yum install -y \
-  @Development\ Tools \
-  rpm-build \
-  file \
-  zsh \
-  && yum clean all
+#  && /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages \
+#  && rm -f /tmp/*rpm
 
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/STM/STLinux-2.4/host/bin:/opt/STM/STLinux-2.4/devkit/sh4/bin
