@@ -51,5 +51,8 @@ RUN curl -o /tmp/install $DL/install \
 
 #  && /opt/STM/STLinux-2.4/host/bin/stmyum clean dbcache packages \
 #  && rm -f /tmp/*rpm
+ 
+RUN wget -O /usr/bin/pacapt https://github.com/icy/pacapt/raw/ng/pacapt \
+  && chmod +x /usr/bin/pacapt
 
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/STM/STLinux-2.4/host/bin:/opt/STM/STLinux-2.4/devkit/sh4/bin
