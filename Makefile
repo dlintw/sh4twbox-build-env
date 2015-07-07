@@ -4,7 +4,9 @@ UBOOT_BIN=uboot/uboot_update_tool/iptvubootupdate.bin
 KERNEL_BIN=kernel/arch/sh/boot/uImage.gz
 BUSYBOX_VER=1.23.2
 BUSYBOX_SRC=http://www.busybox.net/downloads/busybox-$(BUSYBOX_VER).tar.bz2
-JOBS=$(($(cat /proc/cpuinfo|grep '^processor'|wc -l)+1))
+BUILDROOT_VER=2015.05
+BUILDROOT_SRC=http://buildroot.uclibc.org/downloads/buildroot-$(BUILDROOT_VER).tar.bz2
+JOBS=$(shell grep -c ^processor /proc/cpuinfo)
 
 # kernel/lib/modules
 
@@ -12,7 +14,23 @@ JOBS=$(($(cat /proc/cpuinfo|grep '^processor'|wc -l)+1))
 all: PATH:=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:\
 /opt/STM/STLinux-2.4/host/bin:/opt/STM/STLinux-2.4/devkit/sh4/bin
 
-all: uboot.make kernel.make busybox.make
+#all: uboot.make kernel.make buildroot.make busybox.make
+all: uboot.make kernel.make buildroot.make
+buildroot.dir:
+	[[ ! -d buildroot ]] \
+	&& wget -c $(BUILDROOT_SRC) \
+	&& tar xf buildroot-$(BUILDROOT_VER).tar.bz2 \
+	&& ln -s buildroot-$(BUILDROOT_VER) buildroot \
+	|| true
+	touch buildroot.dir
+
+buildroot.make: LD_LIBRARY_PATH=
+buildroot.make: buildroot.dir
+	cp patches/buildroot.config buildroot/.config \
+	&& cd buildroot \
+	&& make oldconfig \
+	&& make
+	false
 uboot.dir:
 	[[ ! -d uboot ]] && git clone ${UBOOT_SRC} uboot \
 		|| true
